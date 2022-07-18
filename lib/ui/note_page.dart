@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:b/database/notes_db.dart';
 import 'package:b/model/note.dart';
 import 'package:b/ui/edit_note_page.dart';
 import 'package:b/ui/note_detail_page.dart';
 import 'package:b/widget/note_card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({Key? key}) : super(key: key);
@@ -41,13 +44,56 @@ class _NotesPageState extends State<NotesPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          centerTitle: true,
+          // centerTitle: true,
           // backgroundColor: Colors.green.shade200,
           title: const Text(
             'Notes',
             style: TextStyle(fontSize: 24),
           ),
-          actions: const [Icon(Icons.search), SizedBox(width: 12)],
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await NotesDatabase().deleteDB();
+                refreshNotes();
+              },
+              icon: const Icon(
+                Icons.delete_forever,
+              ),
+              color: Colors.red,
+            ),
+            IconButton(
+              onPressed: () async {
+                await NotesDatabase().backupDB();
+                refreshNotes();
+              },
+              icon: const Icon(
+                Icons.copy_all,
+              ),
+              color: Colors.red,
+            ),
+            IconButton(
+              onPressed: () async {
+                await NotesDatabase().restoreDB();
+                refreshNotes();
+              },
+              icon: const Icon(
+                Icons.reset_tv_rounded,
+              ),
+              color: Colors.red,
+            ),
+            // IconButton(
+            //   onPressed: () async {
+            //     await NotesDatabase().getDbPath();
+            //   },
+            //   icon: const Icon(
+            //     Icons.add,
+            //   ),
+            //   color: Colors.red,
+            // ),
+            const SizedBox(
+              width: 12,
+            ),
+          ],
         ),
         body: Center(
           child: isLoading

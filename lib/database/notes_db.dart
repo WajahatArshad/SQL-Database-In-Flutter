@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:b/model/note.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -9,6 +13,67 @@ class NotesDatabase {
 
   NotesDatabase();
 
+  getDbPath() async {
+    String databasePath = await getDatabasesPath();
+    print('Database Path = $databasePath');
+    Directory? externalDatabasePath = await getExternalStorageDirectory();
+    print('External Database Path = $externalDatabasePath');
+  }
+
+  backupDB() async {
+    var status = await Permission.manageExternalStorage.status;
+    if (!status.isGranted) {
+      await Permission.manageExternalStorage.request();
+    }
+    var status1 = await Permission.storage.status;
+    if (!status1.isGranted) {
+      await Permission.storage.request();
+    }
+    try {
+      File ourDbFile =
+          File('/data/user/0/com.example.b/databases/myDatabase.db');
+      Directory? folderPathForDBFile =
+          Directory('/storage/emulated/0/Database/');
+      await folderPathForDBFile.create();
+      await ourDbFile.copy('/storage/emulated/0/Database/myDatabase.db');
+    } catch (e) {
+      print(
+        '=================================================Error = ${e.toString()}',
+      );
+    }
+  }
+
+  restoreDB() async {
+    var status = await Permission.manageExternalStorage.status;
+    if (!status.isGranted) {
+      await Permission.manageExternalStorage.request();
+    }
+    var status1 = await Permission.storage.status;
+    if (status1.isGranted) {
+      await Permission.storage.request();
+    }
+    try {
+      File savedDBFile = File('/storage/emulated/0/Database/myDatabase.db');
+      await savedDBFile
+          .copy('/data/user/0/com.example.b/databases/myDatabase.db');
+    } catch (e) {
+      print(
+        '=================================================Error = ${e.toString()}',
+      );
+    }
+  }
+
+  deleteDB() async {
+    try {
+      _database = null;
+      deleteDatabase('/data/user/0/com.example.b/databases/myDatabase.db');
+    } catch (e) {
+      print(
+        '=================================================Error = ${e.toString()}',
+      );
+    }
+  }
+
   Future<Database> get database async {
     if (_database != null) return _database!;
 
@@ -18,6 +83,7 @@ class NotesDatabase {
 
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
+
     final path = join(dbPath, filePath);
 
     return await openDatabase(path, version: 1, onCreate: _createDB);
