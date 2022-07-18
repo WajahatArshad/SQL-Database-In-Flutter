@@ -34,7 +34,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green.shade100,
+          // backgroundColor: Colors.green.shade100,
           title: const Text('Edit Notes'),
           centerTitle: true,
           actions: [buildButton()],
@@ -72,16 +72,16 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
     );
   }
 
-  void addOrUpdateNote() async {
+  void addOrUpdateNote() {
     final isValid = _formKey.currentState!.validate();
 
     if (isValid) {
       final isUpdating = widget.note != null;
 
       if (isUpdating) {
-        await updateNote();
+        updateNote();
       } else {
-        await addNote();
+        addNote();
       }
 
       Navigator.of(context).pop();

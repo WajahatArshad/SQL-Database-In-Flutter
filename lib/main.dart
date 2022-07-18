@@ -18,18 +18,18 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
+  Widget build(BuildContext context) => const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: title,
         // themeMode: ThemeMode.light,
-        theme: ThemeData(
-          primaryColor: Colors.greenAccent,
-          scaffoldBackgroundColor: Color.fromARGB(255, 214, 214, 214),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Color.fromARGB(0, 12, 12, 12),
-            elevation: 0,
-          ),
-        ),
-        home: const NotesPage(),
+        // theme: ThemeData(
+        //   primaryColor: Colors.greenAccent,
+        //   scaffoldBackgroundColor: Color.fromARGB(255, 214, 214, 214),
+        //   appBarTheme: const AppBarTheme(
+        //     backgroundColor: Color.fromARGB(0, 12, 12, 12),
+        //     elevation: 0,
+        //   ),
+        // ),
+        home: NotesPage(),
       );
 }

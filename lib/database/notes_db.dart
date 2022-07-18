@@ -3,11 +3,11 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class NotesDatabase {
-  static final NotesDatabase instance = NotesDatabase._init();
+  static final NotesDatabase instance = NotesDatabase();
 
   static Database? _database;
 
-  NotesDatabase._init();
+  NotesDatabase();
 
   Future<Database> get database async {
     if (_database != null) return _database!;

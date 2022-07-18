@@ -42,7 +42,7 @@ class _NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.green.shade200,
+          // backgroundColor: Colors.green.shade200,
           title: const Text(
             'Notes',
             style: TextStyle(fontSize: 24),
@@ -61,10 +61,14 @@ class _NotesPageState extends State<NotesPage> {
         ),
         floatingActionButton: FloatingActionButton(
           // backgroundColor: Colors.black,
-          child: const Icon(Icons.add),
+          child: const Icon(
+            Icons.add,
+          ),
           onPressed: () async {
             await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const AddEditNotePage()),
+              MaterialPageRoute(
+                builder: (context) => const AddEditNotePage(),
+              ),
             );
 
             refreshNotes();
